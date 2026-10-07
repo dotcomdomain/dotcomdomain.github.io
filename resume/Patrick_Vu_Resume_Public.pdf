@@ -1,0 +1,155 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Length 6546 >>
+stream
+0.120 0.120 0.120 rg
+BT /F2 22.00 Tf 1 0 0 1 175.81 742.00 Tm (Anh Nhat Vu \(Patrick Vu\)) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.70 Tf 1 0 0 1 154.14 720.00 Tm (github.com/dotcomdomain | dotcomdomain.github.io | Ontario, Canada) Tj ET
+0.090 0.290 0.460 rg
+BT /F2 12.20 Tf 1 0 0 1 46.80 700.00 Tm (PROFILE) Tj ET
+0.090 0.290 0.460 RG
+0.65 w 46.80 695.00 m 565.20 695.00 l S
+0.120 0.120 0.120 rg
+BT /F1 10.00 Tf 1 0 0 1 46.80 677.00 Tm (First-year Bachelor of Technology student at McMaster University studying Automation Systems Engineering) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 10.00 Tf 1 0 0 1 46.80 662.40 Tm (Technology \(Co-op\). Hands-on experience with C++, Python, Kotlin, Git, Android/Linux tooling, and USB HID) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 10.00 Tf 1 0 0 1 46.80 647.80 Tm (development through personal and school projects. Enjoys debugging practical systems that cross software and) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 10.00 Tf 1 0 0 1 46.80 633.20 Tm (hardware, with customer-facing experience from volunteer work.) Tj ET
+0.090 0.290 0.460 rg
+BT /F2 12.20 Tf 1 0 0 1 46.80 610.60 Tm (EDUCATION) Tj ET
+0.090 0.290 0.460 RG
+0.65 w 46.80 605.60 m 565.20 605.60 l S
+0.120 0.120 0.120 rg
+BT /F2 10.20 Tf 1 0 0 1 46.80 587.60 Tm (McMaster University) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 10.20 Tf 1 0 0 1 148.50 587.60 Tm (- Hamilton, ON | September 2026 - Present) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.95 Tf 1 0 0 1 46.80 571.20 Tm (Bachelor of Technology \(BTech\), Automation Systems Engineering Technology \(Co-op\)) Tj ET
+0.120 0.120 0.120 rg
+BT /F2 10.20 Tf 1 0 0 1 46.80 556.00 Tm (Ontario Secondary School Diploma \(OSSD\)) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 10.20 Tf 1 0 0 1 259.01 556.00 Tm (- Saunders Secondary School | June 2026) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.95 Tf 1 0 0 1 46.80 539.60 Tm (Honour Roll for 4 consecutive years. Selected Grade 12 marks: Business 91, English 91, Advanced Functions 90,) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.95 Tf 1 0 0 1 46.80 525.40 Tm (Computer Engineering 90, Physics 90, Calculus 87.) Tj ET
+0.090 0.290 0.460 rg
+BT /F2 12.20 Tf 1 0 0 1 46.80 504.20 Tm (TECHNICAL PROJECTS) Tj ET
+0.090 0.290 0.460 RG
+0.65 w 46.80 499.20 m 565.20 499.20 l S
+0.120 0.120 0.120 rg
+BT /F2 10.00 Tf 1 0 0 1 46.80 481.20 Tm (USB Input Bridge / Android S Pen HID Client | Kotlin, Android, USB HID, Git/GitHub) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 51.80 464.80 Tm (-) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 59.80 464.80 Tm (Extended an open-source rooted Android HID client so a phone can act as a USB keyboard, mouse, Windows) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 59.80 451.10 Tm (Precision Touchpad, and S Pen input device without companion software on the host.) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 51.80 437.40 Tm (-) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 59.80 437.40 Tm (Added S Pen input modes, Windows Precision Touchpad reports, and Samsung Exynos USB gadget handling,) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 59.80 423.70 Tm (including preserving ADB while rebuilding the USB gadget.) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 51.80 410.00 Tm (-) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 59.80 410.00 Tm (Built a Material 3 interface with fullscreen touchpad controls, diagnostics, onboarding/help, and configurable) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 59.80 396.30 Tm (sensitivity and tracking settings.) Tj ET
+0.120 0.120 0.120 rg
+BT /F2 10.00 Tf 1 0 0 1 46.80 381.60 Tm (C++ Factory / Resource Management Game | C++, SFML) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 51.80 365.20 Tm (-) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 59.80 365.20 Tm (Built a tile-based 2D automation game with real-time rendering, keyboard command input, multiple generated levels,) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 59.80 351.50 Tm (and procedural terrain.) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 51.80 337.80 Tm (-) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 59.80 337.80 Tm (Implemented resource extraction and processing systems using drills, fluid pumps, furnaces, plate presses, and gear) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 59.80 324.10 Tm (presses.) Tj ET
+0.090 0.290 0.460 rg
+BT /F2 12.20 Tf 1 0 0 1 46.80 303.40 Tm (VOLUNTEER EXPERIENCE) Tj ET
+0.090 0.290 0.460 RG
+0.65 w 46.80 298.40 m 565.20 298.40 l S
+0.120 0.120 0.120 rg
+BT /F2 10.00 Tf 1 0 0 1 46.80 280.40 Tm (Food Truck Volunteer | 15 hours) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.75 Tf 1 0 0 1 51.80 264.00 Tm (-) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.75 Tf 1 0 0 1 59.80 264.00 Tm (Took customer orders, helped prepare food, and served customers in a fast-paced team environment.) Tj ET
+0.120 0.120 0.120 rg
+BT /F2 10.00 Tf 1 0 0 1 46.80 250.80 Tm (Saunders School 50th Anniversary Event Staff | 12 hours) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.75 Tf 1 0 0 1 51.80 234.40 Tm (-) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.75 Tf 1 0 0 1 59.80 234.40 Tm (Welcomed alumni and guests, helped set up tables and chairs, and served drinks during the event.) Tj ET
+0.120 0.120 0.120 rg
+BT /F2 10.00 Tf 1 0 0 1 46.80 221.20 Tm (School Math Tutor | 5 hours) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.75 Tf 1 0 0 1 51.80 204.80 Tm (-) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.75 Tf 1 0 0 1 59.80 204.80 Tm (Supported students with math questions, practice problems, and step-by-step explanations.) Tj ET
+0.090 0.290 0.460 rg
+BT /F2 12.20 Tf 1 0 0 1 46.80 185.60 Tm (SKILLS) Tj ET
+0.090 0.290 0.460 RG
+0.65 w 46.80 180.60 m 565.20 180.60 l S
+0.120 0.120 0.120 rg
+BT /F2 9.90 Tf 1 0 0 1 46.80 162.60 Tm (Programming & Tools) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 158.80 162.60 Tm (C++, Python, Kotlin \(project experience\), basic HTML/CSS/JavaScript, SFML, Git, GitHub,) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 158.80 150.10 Tm (GitLab, Linux, Android/ADB) Tj ET
+0.120 0.120 0.120 rg
+BT /F2 9.90 Tf 1 0 0 1 46.80 132.60 Tm (Productivity) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 158.80 132.60 Tm (Microsoft Office, Google Workspace, documentation, organized note-taking) Tj ET
+0.120 0.120 0.120 rg
+BT /F2 9.90 Tf 1 0 0 1 46.80 113.60 Tm (Strengths) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 158.80 113.60 Tm (Fast learner, problem solving, attention to detail, technology-focused, reliable teamwork) Tj ET
+0.120 0.120 0.120 rg
+BT /F2 9.90 Tf 1 0 0 1 46.80 94.60 Tm (Languages) Tj ET
+0.120 0.120 0.120 rg
+BT /F1 9.80 Tf 1 0 0 1 158.80 94.60 Tm (English, Vietnamese, French \(basic\)) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Title (Patrick Vu Resume - Public) /Author (Patrick Vu) /Subject (Resume) >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000000321 00000 n 
+0000000396 00000 n 
+0000006993 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R /Info 7 0 R >>
+startxref
+7089
+%%EOF
