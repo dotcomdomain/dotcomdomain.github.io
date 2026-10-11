@@ -460,7 +460,7 @@
       display: grid;
       grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
       gap: 28px;
-      align-items: center;
+      align-items: stretch;
     }
     .featured-spotlight:hover {
       border-color: var(--outline-strong);
@@ -512,6 +512,9 @@
     /* Featured project screenshot carousel */
     .spotlight-gallery {
       min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto auto;
       padding: 14px;
       border: 1px solid var(--outline);
       border-radius: var(--shape-lg);
@@ -521,6 +524,8 @@
     .spotlight-gallery-track {
       position: relative;
       display: flex;
+      min-width: 0;
+      min-height: 0;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
@@ -540,7 +545,8 @@
     .spotlight-gallery-slide {
       flex: 0 0 100%;
       min-width: 0;
-      height: clamp(320px, 34vw, 440px);
+      min-height: 0;
+      height: 100%;
       scroll-snap-align: start;
       scroll-snap-stop: always;
       display: flex;
@@ -973,6 +979,9 @@
       .featured-spotlight {
         grid-template-columns: 1fr;
         gap: 24px;
+      }
+      .spotlight-gallery {
+        height: 240px;
       }
       .projects-grid {
         grid-template-columns: 1fr;
