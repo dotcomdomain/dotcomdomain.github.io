@@ -458,8 +458,8 @@
       box-shadow: var(--card-shadow);
       transition: all var(--duration-normal) var(--ease-standard);
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 36px;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+      gap: 28px;
       align-items: center;
     }
     .featured-spotlight:hover {
@@ -509,32 +509,113 @@
       margin-bottom: 24px;
     }
 
-    .spotlight-specs {
-      background: var(--surface-container-low);
+    /* Featured project screenshot carousel */
+    .spotlight-gallery {
+      min-width: 0;
+      padding: 14px;
       border: 1px solid var(--outline);
       border-radius: var(--shape-lg);
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      background: var(--surface-container-low);
     }
 
-    .spec-item {
+    .spotlight-gallery-track {
+      position: relative;
       display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      border-radius: var(--shape-md);
+      background: var(--surface-container);
+    }
+    .spotlight-gallery-track::-webkit-scrollbar {
+      display: none;
+    }
+    .spotlight-gallery-track:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 3px;
+    }
+
+    .spotlight-gallery-slide {
+      flex: 0 0 100%;
+      min-width: 0;
+      height: clamp(320px, 34vw, 440px);
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .spotlight-gallery-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .spotlight-gallery-caption {
+      margin-top: 12px;
       color: var(--text-secondary);
-      line-height: 1.5;
-    }
-    .spec-item svg {
-      flex-shrink: 0;
-      margin-top: 3px;
-      color: var(--primary);
-    }
-    .spec-item strong {
-      color: var(--text-primary);
+      font-size: 13px;
       font-weight: 600;
+      text-align: center;
+    }
+    .spotlight-gallery-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .spotlight-gallery-arrow {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--shape-full);
+      border: 1px solid var(--outline);
+      background: var(--surface-container);
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background var(--duration-fast) ease;
+    }
+    .spotlight-gallery-arrow:hover {
+      background: var(--surface-container-high);
+    }
+    .spotlight-gallery-arrow:focus-visible,
+    .spotlight-gallery-dot:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 3px;
+    }
+    .spotlight-gallery-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .spotlight-gallery-dot {
+      width: 9px;
+      height: 9px;
+      background: var(--text-tertiary);
+      opacity: 0.5;
+      border: 0;
+      border-radius: var(--shape-full);
+      cursor: pointer;
+      padding: 0;
+      transition: width var(--duration-fast) ease, opacity var(--duration-fast) ease, background var(--duration-fast) ease;
+    }
+    .spotlight-gallery-dot[aria-pressed="true"] {
+      width: 22px;
+      opacity: 1;
+      background: var(--primary);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .spotlight-gallery-track {
+        scroll-behavior: auto;
+      }
     }
 
     /* Tag Pills */
@@ -1024,10 +1105,10 @@
         <button class="filter-chip" data-filter="games" aria-pressed="false" type="button">Simulation &amp; C++ (1)</button>
       </div>
 
-      <!-- Spotlight: Project 01 (Android S Pen HID Client) -->
+      <!-- Spotlight: Project 01 (USB Input Bridge) -->
       <article class="featured-spotlight" data-category="android" id="project-spen">
         <div>
-<h3 class="spotlight-title">Android S Pen HID Client</h3>
+          <h3 class="spotlight-title">USB Input Bridge</h3>
 
           <p class="spotlight-desc">
             Turned a rooted Android device into a plug-and-play USB keyboard, mouse, Windows Precision Touchpad, and active S Pen drawing tablet, completely driverless on the host computer.
@@ -1047,18 +1128,39 @@
           </div>
         </div>
 
-        <div class="spotlight-specs">
-          <div class="spec-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <div><strong>Multi-Modal Digitizer:</strong> Hover, Mouse, and Hybrid modes with realtime pressure mapping.</div>
+        <div class="spotlight-gallery" id="usb-gallery" role="region" aria-roledescription="carousel" aria-label="USB Input Bridge app screenshots">
+          <div class="spotlight-gallery-track" tabindex="0" aria-label="Scroll through the screenshots">
+            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="1 of 5" data-caption="Portrait touchpad">
+              <img src="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot1.png" alt="USB Input Bridge portrait touchpad screen" loading="eager" decoding="async">
+            </figure>
+            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="2 of 5" data-caption="Landscape touchpad">
+              <img src="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot2.png" alt="USB Input Bridge fullscreen landscape touchpad with floating keyboard control" loading="lazy" decoding="async">
+            </figure>
+            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="3 of 5" data-caption="Settings">
+              <img src="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot3.png" alt="USB Input Bridge settings screen" loading="lazy" decoding="async">
+            </figure>
+            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="4 of 5" data-caption="S Pen configuration">
+              <img src="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot4.png" alt="USB Input Bridge S Pen configuration screen" loading="lazy" decoding="async">
+            </figure>
+            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="5 of 5" data-caption="Help and gestures">
+              <img src="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot5.png" alt="USB Input Bridge help and gesture instructions" loading="lazy" decoding="async">
+            </figure>
           </div>
-          <div class="spec-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <div><strong>Native Precision Touchpad:</strong> Windows gestures without any host-side background driver or agent.</div>
-          </div>
-          <div class="spec-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <div><strong>Kernel State Management:</strong> Reconfigures USB Gadget functions on Samsung Exynos while keeping ADB alive.</div>
+          <p class="spotlight-gallery-caption" aria-live="polite">Portrait touchpad</p>
+          <div class="spotlight-gallery-controls">
+            <button class="spotlight-gallery-arrow" type="button" data-gallery-prev aria-label="Previous screenshot">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <div class="spotlight-gallery-dots" role="group" aria-label="Choose a screenshot">
+            <button class="spotlight-gallery-dot" type="button" data-gallery-index="0" aria-label="Show portrait touchpad" aria-pressed="true"></button>
+            <button class="spotlight-gallery-dot" type="button" data-gallery-index="1" aria-label="Show landscape touchpad" aria-pressed="false"></button>
+            <button class="spotlight-gallery-dot" type="button" data-gallery-index="2" aria-label="Show settings" aria-pressed="false"></button>
+            <button class="spotlight-gallery-dot" type="button" data-gallery-index="3" aria-label="Show s pen configuration" aria-pressed="false"></button>
+            <button class="spotlight-gallery-dot" type="button" data-gallery-index="4" aria-label="Show help and gestures" aria-pressed="false"></button>
+            </div>
+            <button class="spotlight-gallery-arrow" type="button" data-gallery-next aria-label="Next screenshot">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
           </div>
         </div>
       </article>
@@ -1454,7 +1556,49 @@
         });
       });
 
-      // 3. Scroll Spy for Navigation Links
+      // 3. USB Input Bridge screenshot gallery
+      const gallery = document.getElementById('usb-gallery');
+      if (gallery) {
+        const track = gallery.querySelector('.spotlight-gallery-track');
+        const slides = Array.from(gallery.querySelectorAll('.spotlight-gallery-slide'));
+        const dots = Array.from(gallery.querySelectorAll('.spotlight-gallery-dot'));
+        const caption = gallery.querySelector('.spotlight-gallery-caption');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let activeIndex = 0;
+
+        function setActive(index) {
+          activeIndex = Math.max(0, Math.min(index, slides.length - 1));
+          caption.textContent = slides[activeIndex].dataset.caption;
+          dots.forEach((dot, i) => dot.setAttribute('aria-pressed', String(i === activeIndex)));
+        }
+
+        function showSlide(index) {
+          const nextIndex = (index + slides.length) % slides.length;
+          setActive(nextIndex);
+          track.scrollTo({
+            left: nextIndex * track.clientWidth,
+            behavior: reducedMotion.matches ? 'instant' : 'smooth'
+          });
+        }
+
+        gallery.querySelector('[data-gallery-prev]').addEventListener('click', () => showSlide(activeIndex - 1));
+        gallery.querySelector('[data-gallery-next]').addEventListener('click', () => showSlide(activeIndex + 1));
+        dots.forEach((dot, index) => dot.addEventListener('click', () => showSlide(index)));
+
+        track.addEventListener('scroll', () => {
+          if (!track.clientWidth) return;
+          setActive(Math.round(track.scrollLeft / track.clientWidth));
+        }, { passive: true });
+
+        track.addEventListener('keydown', event => {
+          if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+            event.preventDefault();
+            showSlide(activeIndex + (event.key === 'ArrowRight' ? 1 : -1));
+          }
+        });
+      }
+
+      // 4. Scroll Spy for Navigation Links
       const navLinks = document.querySelectorAll('.nav-link');
       const sections = document.querySelectorAll('section[id]');
 
