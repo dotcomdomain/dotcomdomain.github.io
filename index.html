@@ -467,14 +467,6 @@
       transform: translateY(-3px);
     }
 
-    .spotlight-meta {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
     .tag-mono {
       font-size: 12px;
       font-weight: 700;
@@ -591,14 +583,6 @@
     .project-card:hover {
       border-color: var(--outline-strong);
       transform: translateY(-4px);
-    }
-
-    .card-top-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
     }
 
     .project-title {
@@ -1043,12 +1027,7 @@
       <!-- Spotlight: Project 01 (Android S Pen HID Client) -->
       <article class="featured-spotlight" data-category="android" id="project-spen">
         <div>
-          <div class="spotlight-meta">
-            <span class="tag-mono">Featured Open Source</span>
-            <span class="badge-clean featured">Android / Hardware HID</span>
-          </div>
-
-          <h3 class="spotlight-title">Android S Pen HID Client</h3>
+<h3 class="spotlight-title">Android S Pen HID Client</h3>
 
           <p class="spotlight-desc">
             Turned a rooted Android device into a plug-and-play USB keyboard, mouse, Windows Precision Touchpad, and active S Pen drawing tablet, completely driverless on the host computer.
@@ -1089,10 +1068,6 @@
         <!-- Project 02: LifeVOD -->
         <article class="project-card" data-category="ai" id="project-lifevod">
           <div>
-            <div class="card-top-meta">
-              <span class="tag-mono">On-Device Intelligence</span>
-              <span class="badge-clean">Active Prototype</span>
-            </div>
             <h3 class="project-title">LifeVOD</h3>
             <p class="project-desc">
               Private on-device Android assistant exploring continuous ambient audio capture, semantic local memory retention, and proactive daily task planning without cloud reliance.
@@ -1117,10 +1092,6 @@
         <!-- Project 03: Linux Kernel Exynos 9810 -->
         <article class="project-card" data-category="android" id="project-exynos">
           <div>
-            <div class="card-top-meta">
-              <span class="tag-mono">Systems / Linux Kernel</span>
-              <span class="badge-clean">Merged Upstream</span>
-            </div>
             <h3 class="project-title">Samsung Exynos 9810 Kernel Contribution</h3>
             <p class="project-desc">
               Investigated low-level silicon behavior, isolated driver anomalies, and contributed patch code to the open-source Linux kernel tree powering Exynos 9810 devices.
@@ -1147,10 +1118,6 @@
         <!-- Project 04: C++ Factory Game -->
         <article class="project-card" data-category="games" id="project-factory">
           <div>
-            <div class="card-top-meta">
-              <span class="tag-mono">Game Engine / Systems</span>
-              <span class="badge-clean">C++ Architecture</span>
-            </div>
             <h3 class="project-title">C++ Factory &amp; Logistics Simulation</h3>
             <p class="project-desc">
               High-performance 2D tile-based automation game built in C++ with SFML, featuring procedural terrain generation, item routing networks, and deterministic factory loops.
@@ -1174,10 +1141,6 @@
         <!-- Project 05: Local AI on Constrained Hardware -->
         <article class="project-card" data-category="ai" id="project-local-ai">
           <div>
-            <div class="card-top-meta">
-              <span class="tag-mono">Hardware Optimization</span>
-              <span class="badge-clean">Inference Tuning</span>
-            </div>
             <h3 class="project-title">Local AI on Constrained Hardware</h3>
             <p class="project-desc">
               Engineered a self-hosted local LLM inference server on older hardware using llama.cpp and Vulkan GPU acceleration to achieve maximum tokens-per-second per watt.
@@ -1201,10 +1164,6 @@
         <!-- Project 06: Native ARM64 Android Snake -->
         <article class="project-card" data-category="android" id="project-snake">
           <div>
-            <div class="card-top-meta">
-              <span class="tag-mono">Embedded / Low-Level</span>
-              <span class="badge-clean">ARM64 Prototype</span>
-            </div>
             <h3 class="project-title">Native ARM64 Android Snake</h3>
             <p class="project-desc">
               Native Android application compiled directly for 64-bit ARM architecture to profile low-overhead device execution, frame pacing, and hardware lifecycle telemetry.
