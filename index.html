@@ -593,7 +593,7 @@
       position: absolute;
       z-index: 2;
       left: 20px;
-      bottom: 48px;
+      top: 20px;
       max-width: calc(100% - 40px);
       padding: 4px 10px;
       border-radius: var(--shape-full);
@@ -613,15 +613,22 @@
       z-index: 3;
       inset: 10px;
       pointer-events: none;
-      opacity: 0;
-      transition: opacity 1.1s ease;
     }
-    .spotlight-gallery.is-active .spotlight-gallery-controls,
-    .spotlight-gallery.is-active .spotlight-gallery-caption,
-    .spotlight-gallery:has(:focus-visible) .spotlight-gallery-controls,
+
+    /* Arrows and caption appear instantly on hover, then fade out on exit. */
+    @media (hover: hover) {
+      .spotlight-gallery:hover .spotlight-gallery-arrow,
+      .spotlight-gallery:hover .spotlight-gallery-caption {
+        opacity: 1;
+        transition-duration: 0s;
+      }
+    }
+    .spotlight-gallery:has(:focus-visible) .spotlight-gallery-arrow,
     .spotlight-gallery:has(:focus-visible) .spotlight-gallery-caption,
-    .spotlight-gallery-controls:has(.spotlight-gallery-arrow:hover, .spotlight-gallery-dot:hover) {
+    .spotlight-gallery.is-touch-active .spotlight-gallery-arrow,
+    .spotlight-gallery.is-touch-active .spotlight-gallery-caption {
       opacity: 1;
+      transition-duration: 0s;
     }
     .spotlight-gallery-arrow {
       position: absolute;
@@ -640,7 +647,8 @@
       justify-content: center;
       cursor: pointer;
       pointer-events: auto;
-      transition: background var(--duration-fast) ease;
+      opacity: 0;
+      transition: opacity 1.1s ease, background var(--duration-fast) ease;
     }
     .spotlight-gallery-arrow[data-gallery-prev] {
       left: 10px;
@@ -673,6 +681,15 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       pointer-events: auto;
+      opacity: 0;
+      transition: opacity 1.1s ease;
+    }
+    /* Only image changes or direct dot interaction reveal the indicators. */
+    .spotlight-gallery.show-dots .spotlight-gallery-dots,
+    .spotlight-gallery-dots:hover,
+    .spotlight-gallery-dots:focus-within {
+      opacity: 1;
+      transition-duration: 0s;
     }
     .spotlight-gallery-dot {
       position: relative;
@@ -706,8 +723,9 @@
       .spotlight-gallery-track {
         scroll-behavior: auto;
       }
-      .spotlight-gallery-controls,
-      .spotlight-gallery-caption {
+      .spotlight-gallery-arrow,
+      .spotlight-gallery-caption,
+      .spotlight-gallery-dots {
         transition: none;
       }
     }
@@ -1669,41 +1687,37 @@
         const caption = gallery.querySelector('.spotlight-gallery-caption');
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         let activeIndex = 0;
-        let idleTimer;
+        let dotsIdleTimer;
+        let touchIdleTimer;
 
-        function showControls() {
-          gallery.classList.add('is-active');
-          clearTimeout(idleTimer);
-          idleTimer = setTimeout(() => gallery.classList.remove('is-active'), 2400);
+        function revealDots() {
+          gallery.classList.add('show-dots');
+          clearTimeout(dotsIdleTimer);
+          dotsIdleTimer = setTimeout(() => gallery.classList.remove('show-dots'), 2400);
         }
 
-        function fadeAfterLeaving() {
-          clearTimeout(idleTimer);
-          idleTimer = setTimeout(() => gallery.classList.remove('is-active'), 450);
-        }
-
-        gallery.addEventListener('pointerenter', showControls);
-        gallery.addEventListener('pointermove', showControls);
-        gallery.addEventListener('pointerdown', showControls);
-        gallery.addEventListener('pointerleave', fadeAfterLeaving);
-        gallery.addEventListener('focusin', showControls);
-        gallery.addEventListener('focusout', fadeAfterLeaving);
-        gallery.addEventListener('keydown', showControls);
-        showControls();
+        // On touchscreens, a tap temporarily reveals the arrows and caption.
+        gallery.addEventListener('pointerdown', event => {
+          if (event.pointerType === 'mouse') return;
+          gallery.classList.add('is-touch-active');
+          clearTimeout(touchIdleTimer);
+          touchIdleTimer = setTimeout(() => gallery.classList.remove('is-touch-active'), 2400);
+        });
 
         function setActive(index) {
-          activeIndex = Math.max(0, Math.min(index, slides.length - 1));
+          const nextIndex = Math.max(0, Math.min(index, slides.length - 1));
+          if (nextIndex === activeIndex) return;
+          activeIndex = nextIndex;
           caption.textContent = slides[activeIndex].dataset.caption;
           dots.forEach((dot, i) => dot.setAttribute('aria-pressed', String(i === activeIndex)));
+          revealDots();
         }
 
         function showSlide(index) {
-          showControls();
           const nextIndex = (index + slides.length) % slides.length;
-          setActive(nextIndex);
           track.scrollTo({
             left: nextIndex * track.clientWidth,
-            behavior: reducedMotion.matches ? 'instant' : 'smooth'
+            behavior: reducedMotion.matches ? 'auto' : 'smooth'
           });
         }
 
@@ -1712,7 +1726,6 @@
         dots.forEach((dot, index) => dot.addEventListener('click', () => showSlide(index)));
 
         track.addEventListener('scroll', () => {
-          showControls();
           if (!track.clientWidth) return;
           setActive(Math.round(track.scrollLeft / track.clientWidth));
         }, { passive: true });
