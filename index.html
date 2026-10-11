@@ -453,14 +453,14 @@
       background: var(--surface);
       border: 1px solid var(--outline);
       border-radius: var(--shape-xl);
-      padding: clamp(32px, 4vw, 44px);
+      padding: clamp(24px, 3vw, 32px);
       margin-bottom: 28px;
       box-shadow: var(--card-shadow);
       transition: all var(--duration-normal) var(--ease-standard);
       display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-      gap: 28px;
-      align-items: stretch;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+      gap: 24px;
+      align-items: center;
     }
     .featured-spotlight:hover {
       border-color: var(--outline-strong);
@@ -509,23 +509,23 @@
       margin-bottom: 24px;
     }
 
-    /* Featured project screenshot carousel */
+    /* Compact screenshot preview: the carousel never sets the card's height. */
     .spotlight-gallery {
       min-width: 0;
-      min-height: 0;
-      display: grid;
-      grid-template-rows: minmax(0, 1fr) auto auto;
-      padding: 14px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
       border: 1px solid var(--outline);
       border-radius: var(--shape-lg);
       background: var(--surface-container-low);
     }
 
     .spotlight-gallery-track {
-      position: relative;
       display: flex;
+      flex: 0 0 218px;
+      height: 218px;
       min-width: 0;
-      min-height: 0;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
@@ -543,40 +543,78 @@
     }
 
     .spotlight-gallery-slide {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
       flex: 0 0 100%;
       min-width: 0;
-      min-height: 0;
-      height: 100%;
+      height: 218px;
       scroll-snap-align: start;
       scroll-snap-stop: always;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+    }
+    .spotlight-gallery-slide::before {
+      content: "";
+      position: absolute;
+      inset: -24px;
+      background: var(--screenshot) center / cover no-repeat;
+      filter: blur(24px) brightness(0.65);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .spotlight-gallery-slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.12), transparent 35%, transparent 65%, rgba(0, 0, 0, 0.12));
+      pointer-events: none;
+    }
+    .spotlight-gallery-slide a {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      cursor: zoom-in;
     }
     .spotlight-gallery-slide img {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: contain;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.24));
     }
 
     .spotlight-gallery-caption {
-      margin-top: 12px;
-      color: var(--text-secondary);
-      font-size: 13px;
+      position: absolute;
+      z-index: 2;
+      left: 20px;
+      bottom: 53px;
+      max-width: calc(100% - 40px);
+      padding: 4px 10px;
+      border-radius: var(--shape-full);
+      border: 1px solid var(--outline);
+      background: var(--nav-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: var(--text-primary);
+      font-size: 11px;
       font-weight: 600;
-      text-align: center;
+      pointer-events: none;
     }
     .spotlight-gallery-controls {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      margin-top: 10px;
+      margin-top: 8px;
     }
     .spotlight-gallery-arrow {
-      width: 34px;
-      height: 34px;
+      width: 30px;
+      height: 30px;
       border-radius: var(--shape-full);
       border: 1px solid var(--outline);
       background: var(--surface-container);
@@ -592,9 +630,10 @@
       background: var(--surface-container-high);
     }
     .spotlight-gallery-arrow:focus-visible,
-    .spotlight-gallery-dot:focus-visible {
+    .spotlight-gallery-dot:focus-visible,
+    .spotlight-gallery-slide a:focus-visible {
       outline: 2px solid var(--primary);
-      outline-offset: 3px;
+      outline-offset: 2px;
     }
     .spotlight-gallery-dots {
       display: flex;
@@ -603,8 +642,8 @@
       gap: 8px;
     }
     .spotlight-gallery-dot {
-      width: 9px;
-      height: 9px;
+      width: 8px;
+      height: 8px;
       background: var(--text-tertiary);
       opacity: 0.5;
       border: 0;
@@ -614,7 +653,7 @@
       transition: width var(--duration-fast) ease, opacity var(--duration-fast) ease, background var(--duration-fast) ease;
     }
     .spotlight-gallery-dot[aria-pressed="true"] {
-      width: 22px;
+      width: 18px;
       opacity: 1;
       background: var(--primary);
     }
@@ -980,9 +1019,6 @@
         grid-template-columns: 1fr;
         gap: 24px;
       }
-      .spotlight-gallery {
-        height: 240px;
-      }
       .projects-grid {
         grid-template-columns: 1fr;
       }
@@ -1139,20 +1175,30 @@
 
         <div class="spotlight-gallery" id="usb-gallery" role="region" aria-roledescription="carousel" aria-label="USB Input Bridge app screenshots">
           <div class="spotlight-gallery-track" tabindex="0" aria-label="Scroll through the screenshots">
-            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="1 of 5" data-caption="Portrait touchpad">
+            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="1 of 5" data-caption="Portrait touchpad" style="--screenshot: url('https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot1.png')";>
+              <a href="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot1.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot 1 at full size">
               <img src="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot1.png" alt="USB Input Bridge portrait touchpad screen" loading="eager" decoding="async">
+              </a>
             </figure>
-            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="2 of 5" data-caption="Landscape touchpad">
+            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="2 of 5" data-caption="Landscape touchpad" style="--screenshot: url('https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot2.png')";>
+              <a href="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot2.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot 2 at full size">
               <img src="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot2.png" alt="USB Input Bridge fullscreen landscape touchpad with floating keyboard control" loading="lazy" decoding="async">
+              </a>
             </figure>
-            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="3 of 5" data-caption="Settings">
+            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="3 of 5" data-caption="Settings" style="--screenshot: url('https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot3.png')";>
+              <a href="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot3.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot 3 at full size">
               <img src="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot3.png" alt="USB Input Bridge settings screen" loading="lazy" decoding="async">
+              </a>
             </figure>
-            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="4 of 5" data-caption="S Pen configuration">
+            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="4 of 5" data-caption="S Pen configuration" style="--screenshot: url('https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot4.png')";>
+              <a href="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot4.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot 4 at full size">
               <img src="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot4.png" alt="USB Input Bridge S Pen configuration screen" loading="lazy" decoding="async">
+              </a>
             </figure>
-            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="5 of 5" data-caption="Help and gestures">
+            <figure class="spotlight-gallery-slide" role="group" aria-roledescription="slide" aria-label="5 of 5" data-caption="Help and gestures" style="--screenshot: url('https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot5.png')";>
+              <a href="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot5.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot 5 at full size">
               <img src="https://raw.githubusercontent.com/dotcomdomain/android-spen-hid-client/main/images/app-screenshot5.png" alt="USB Input Bridge help and gesture instructions" loading="lazy" decoding="async">
+              </a>
             </figure>
           </div>
           <p class="spotlight-gallery-caption" aria-live="polite">Portrait touchpad</p>
