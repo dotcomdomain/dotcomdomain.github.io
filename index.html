@@ -630,6 +630,12 @@
       opacity: 1;
       transition-duration: 0s;
     }
+    /* After an arrow click and quick exit, fade all visible overlays together.
+       Re-hover still restores only arrows and caption, never the dots. */
+    .spotlight-gallery.sync-dot-exit:not(:hover) .spotlight-gallery-arrow,
+    .spotlight-gallery.sync-dot-exit:not(:hover) .spotlight-gallery-caption {
+      transition-duration: 0.35s;
+    }
     .spotlight-gallery-arrow {
       position: absolute;
       top: 50%;
@@ -1683,18 +1689,46 @@
       if (gallery) {
         const track = gallery.querySelector('.spotlight-gallery-track');
         const slides = Array.from(gallery.querySelectorAll('.spotlight-gallery-slide'));
+        const dotsContainer = gallery.querySelector('.spotlight-gallery-dots');
         const dots = Array.from(gallery.querySelectorAll('.spotlight-gallery-dot'));
         const caption = gallery.querySelector('.spotlight-gallery-caption');
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         let activeIndex = 0;
         let dotsIdleTimer;
         let touchIdleTimer;
+        let lastArrowClickAt = -Infinity;
+        let suppressArrowScrollDots = false;
+
+        function clearSyncedExit() {
+          suppressArrowScrollDots = false;
+          gallery.classList.remove('sync-dot-exit');
+        }
 
         function revealDots() {
+          if (suppressArrowScrollDots) return;
           gallery.classList.add('show-dots');
           clearTimeout(dotsIdleTimer);
           dotsIdleTimer = setTimeout(() => gallery.classList.remove('show-dots'), 900);
         }
+
+        // Keep dots and arrows synchronized when the pointer leaves right after
+        // an arrow click. A pending smooth-scroll frame must not re-reveal dots.
+        gallery.addEventListener('pointerleave', event => {
+          if (event.pointerType !== 'mouse' || performance.now() - lastArrowClickAt > 1000) return;
+          lastArrowClickAt = -Infinity;
+          suppressArrowScrollDots = true;
+          clearTimeout(dotsIdleTimer);
+          gallery.classList.remove('show-dots');
+          gallery.classList.add('sync-dot-exit');
+        });
+
+        // Hovering directly over the dots is always an explicit reveal.
+        dotsContainer.addEventListener('pointerenter', clearSyncedExit);
+
+        // Swiping, scrolling, or keyboard navigation may reveal dots on the
+        // next image change, but merely re-hovering the gallery does not.
+        track.addEventListener('pointerdown', clearSyncedExit);
+        track.addEventListener('wheel', clearSyncedExit, { passive: true });
 
         // On touchscreens, a tap temporarily reveals the arrows and caption.
         gallery.addEventListener('pointerdown', event => {
@@ -1721,9 +1755,19 @@
           });
         }
 
-        gallery.querySelector('[data-gallery-prev]').addEventListener('click', () => showSlide(activeIndex - 1));
-        gallery.querySelector('[data-gallery-next]').addEventListener('click', () => showSlide(activeIndex + 1));
-        dots.forEach((dot, index) => dot.addEventListener('click', () => showSlide(index)));
+        function navigateByArrow(direction) {
+          clearSyncedExit();
+          lastArrowClickAt = performance.now();
+          showSlide(activeIndex + direction);
+        }
+
+        gallery.querySelector('[data-gallery-prev]').addEventListener('click', () => navigateByArrow(-1));
+        gallery.querySelector('[data-gallery-next]').addEventListener('click', () => navigateByArrow(1));
+        dots.forEach((dot, index) => dot.addEventListener('click', () => {
+          clearSyncedExit();
+          lastArrowClickAt = -Infinity;
+          showSlide(index);
+        }));
 
         track.addEventListener('scroll', () => {
           if (!track.clientWidth) return;
@@ -1733,6 +1777,8 @@
         track.addEventListener('keydown', event => {
           if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
             event.preventDefault();
+            clearSyncedExit();
+            lastArrowClickAt = -Infinity;
             showSlide(activeIndex + (event.key === 'ArrowRight' ? 1 : -1));
           }
         });
