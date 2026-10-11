@@ -523,8 +523,8 @@
 
     .spotlight-gallery-track {
       display: flex;
-      flex: 0 0 218px;
-      height: 218px;
+      flex: 0 0 256px;
+      height: 256px;
       min-width: 0;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
@@ -548,7 +548,7 @@
       overflow: hidden;
       flex: 0 0 100%;
       min-width: 0;
-      height: 218px;
+      height: 256px;
       scroll-snap-align: start;
       scroll-snap-stop: always;
       display: flex;
@@ -588,11 +588,12 @@
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.24));
     }
 
+    /* Screenshot overlays stay inside the image, leaving the card compact. */
     .spotlight-gallery-caption {
       position: absolute;
       z-index: 2;
       left: 20px;
-      bottom: 53px;
+      bottom: 48px;
       max-width: calc(100% - 40px);
       padding: 4px 10px;
       border-radius: var(--shape-full);
@@ -604,27 +605,48 @@
       font-size: 11px;
       font-weight: 600;
       pointer-events: none;
+      opacity: 0;
+      transition: opacity 1.1s ease;
     }
     .spotlight-gallery-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-top: 8px;
+      position: absolute;
+      z-index: 3;
+      inset: 10px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1.1s ease;
+    }
+    .spotlight-gallery.is-active .spotlight-gallery-controls,
+    .spotlight-gallery.is-active .spotlight-gallery-caption,
+    .spotlight-gallery:has(:focus-visible) .spotlight-gallery-controls,
+    .spotlight-gallery:has(:focus-visible) .spotlight-gallery-caption,
+    .spotlight-gallery-controls:has(.spotlight-gallery-arrow:hover, .spotlight-gallery-dot:hover) {
+      opacity: 1;
     }
     .spotlight-gallery-arrow {
-      width: 30px;
-      height: 30px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
       border-radius: var(--shape-full);
-      border: 1px solid var(--outline);
-      background: var(--surface-container);
+      border: 1px solid var(--outline-strong);
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       color: var(--text-primary);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      flex-shrink: 0;
+      pointer-events: auto;
       transition: background var(--duration-fast) ease;
+    }
+    .spotlight-gallery-arrow[data-gallery-prev] {
+      left: 10px;
+    }
+    .spotlight-gallery-arrow[data-gallery-next] {
+      right: 10px;
     }
     .spotlight-gallery-arrow:hover {
       background: var(--surface-container-high);
@@ -636,30 +658,57 @@
       outline-offset: 2px;
     }
     .spotlight-gallery-dots {
+      position: absolute;
+      left: 50%;
+      bottom: 10px;
+      transform: translateX(-50%);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 2px;
+      padding: 4px 7px;
+      border: 1px solid var(--outline-strong);
+      border-radius: var(--shape-full);
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      pointer-events: auto;
     }
     .spotlight-gallery-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--text-tertiary);
-      opacity: 0.5;
+      position: relative;
+      width: 20px;
+      height: 20px;
+      background: none;
       border: 0;
-      border-radius: var(--shape-full);
       cursor: pointer;
       padding: 0;
-      transition: width var(--duration-fast) ease, opacity var(--duration-fast) ease, background var(--duration-fast) ease;
     }
-    .spotlight-gallery-dot[aria-pressed="true"] {
-      width: 18px;
+    .spotlight-gallery-dot::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      border-radius: var(--shape-full);
+      background: var(--text-secondary);
+      opacity: 0.65;
+      transition: width var(--duration-fast) ease, background var(--duration-fast) ease, opacity var(--duration-fast) ease;
+    }
+    .spotlight-gallery-dot[aria-pressed="true"]::after {
+      width: 16px;
       opacity: 1;
       background: var(--primary);
     }
     @media (prefers-reduced-motion: reduce) {
       .spotlight-gallery-track {
         scroll-behavior: auto;
+      }
+      .spotlight-gallery-controls,
+      .spotlight-gallery-caption {
+        transition: none;
       }
     }
 
@@ -1620,6 +1669,27 @@
         const caption = gallery.querySelector('.spotlight-gallery-caption');
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         let activeIndex = 0;
+        let idleTimer;
+
+        function showControls() {
+          gallery.classList.add('is-active');
+          clearTimeout(idleTimer);
+          idleTimer = setTimeout(() => gallery.classList.remove('is-active'), 2400);
+        }
+
+        function fadeAfterLeaving() {
+          clearTimeout(idleTimer);
+          idleTimer = setTimeout(() => gallery.classList.remove('is-active'), 450);
+        }
+
+        gallery.addEventListener('pointerenter', showControls);
+        gallery.addEventListener('pointermove', showControls);
+        gallery.addEventListener('pointerdown', showControls);
+        gallery.addEventListener('pointerleave', fadeAfterLeaving);
+        gallery.addEventListener('focusin', showControls);
+        gallery.addEventListener('focusout', fadeAfterLeaving);
+        gallery.addEventListener('keydown', showControls);
+        showControls();
 
         function setActive(index) {
           activeIndex = Math.max(0, Math.min(index, slides.length - 1));
@@ -1628,6 +1698,7 @@
         }
 
         function showSlide(index) {
+          showControls();
           const nextIndex = (index + slides.length) % slides.length;
           setActive(nextIndex);
           track.scrollTo({
@@ -1641,6 +1712,7 @@
         dots.forEach((dot, index) => dot.addEventListener('click', () => showSlide(index)));
 
         track.addEventListener('scroll', () => {
+          showControls();
           if (!track.clientWidth) return;
           setActive(Math.round(track.scrollLeft / track.clientWidth));
         }, { passive: true });
